@@ -9,6 +9,7 @@ import TranslateCard from "./components/TranslateCard";
 function App() {
   const [parent, enableAnimations] = useAutoAnimate();
   const [showForm, setShowForm] = useState(false);
+  const [translations, setTranslations] = useState(null);
 
   return (
     <>
@@ -19,13 +20,18 @@ function App() {
           {showForm ? "Hide Form" : "New Translation"}
         </Button>
       </div>
-      <div ref={parent}>{showForm && <FormTranslate />}</div>
-      <TranslateCard
-        sourceLanguage="English"
-        targetLanguage="French"
-        originalMessage="Hello, how are you?"
-        translatedMessage="Bonjour, comment allez-vous?"
-      />
+      <div ref={parent}>
+        {showForm && <FormTranslate setTranslations={setTranslations} />}
+      </div>
+
+      {translations && (
+        <TranslateCard
+          sourceLanguage={translations.source}
+          targetLanguage={translations.target}
+          originalMessage={translations.original}
+          translatedMessage={translations.translated}
+        />
+      )}
     </>
   );
 }

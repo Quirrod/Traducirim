@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Button from "./Button";
+import { languages } from "../data/data";
+import { translateMessage } from "../helper/translate";
 
-export default function FormTrnslate() {
+export default function FormTrnslate(props) {
+  const { setTranslations } = props;
   const [fromLang, setFromLang] = useState("");
   const [toLang, setToLang] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState({});
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!fromLang) {
@@ -41,6 +44,13 @@ export default function FormTrnslate() {
     }
 
     console.log("Form submitted:", fromLang, toLang, mensaje);
+    const translationRes = await translateMessage(fromLang, toLang, mensaje);
+    setTranslations({
+      source: fromLang,
+      target: toLang,
+      original: mensaje,
+      translated: translationRes,
+    });
   }
 
   return (
@@ -58,9 +68,11 @@ export default function FormTrnslate() {
           onChange={(e) => setFromLang(e.target.value)}
         >
           <option value="">Select a language</option>
-          <option value="JavaScript">JavaScript</option>
-          <option value="Python">Python</option>
-          <option value="Ruby">Ruby</option>
+          {languages.map((language, index) => (
+            <option key={index} value={language.code}>
+              {language.name}
+            </option>
+          ))}
         </select>
         <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
           <svg
@@ -89,9 +101,11 @@ export default function FormTrnslate() {
           onChange={(e) => setToLang(e.target.value)}
         >
           <option value="">Select a Language</option>
-          <option value="JavaScript">JavaScript</option>
-          <option value="Python">Python</option>
-          <option value="Ruby">Ruby</option>
+          {languages.map((language, index) => (
+            <option key={index} value={language.code}>
+              {language.name}
+            </option>
+          ))}
         </select>
         <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
           <svg
@@ -112,14 +126,18 @@ export default function FormTrnslate() {
       </label>
       <textarea
         id="mensaje"
-        className={`block w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline mb-4 ${
+        className={`block w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline mb-2 ${
           errors.mensaje ? "border-red-500" : ""
         }`}
         placeholder="Write a message"
         value={mensaje}
         onChange={(e) => setMensaje(e.target.value)}
         rows="6"
+        maxLength={500}
       ></textarea>
+      <div className="flex justify-between m-2">
+        <div className="text-sm text-gray-500">{mensaje.length}/500</div>
+      </div>
       {errors.mensaje && (
         <p className="text-red-500 text-sm mt-1">{errors.mensaje}</p>
       )}

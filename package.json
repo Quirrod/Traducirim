@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
+    "google-translate-api": "^2.3.0",
+    "google-translate-api-x": "^10.6.6",
     "iconoir-react": "^6.8.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "translate": "^2.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
