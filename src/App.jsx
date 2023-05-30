@@ -31,7 +31,7 @@ function App() {
           {showForm ? "Hide Form" : "New Translation"}
         </Button>
       </div>
-      <div ref={parent}>
+      <div ref={parent} className="p-5">
         {showForm && (
           <FormTranslate
             setShowForm={setShowForm}
