@@ -4,7 +4,7 @@ import { languages } from "../data/data";
 import { translateMessage } from "../helper/translate";
 
 export default function FormTrnslate(props) {
-  const { setTranslations, setIsModalOpen } = props;
+  const { setTranslations, setIsModalOpen, translations } = props;
   const [fromLang, setFromLang] = useState(
     localStorage.getItem("fromLang") || ""
   );
@@ -16,7 +16,8 @@ export default function FormTrnslate(props) {
     localStorage.setItem("fromLang", fromLang);
     localStorage.setItem("toLang", toLang);
     localStorage.setItem("mensaje", mensaje);
-  }, [fromLang, toLang, mensaje]);
+    localStorage.setItem("translations", JSON.stringify(translations));
+  }, [fromLang, toLang, mensaje, translations]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -52,12 +53,27 @@ export default function FormTrnslate(props) {
     }
 
     const translationRes = await translateMessage(fromLang, toLang, mensaje);
-    setTranslations({
-      source: fromLang,
-      target: toLang,
-      original: mensaje,
-      translated: translationRes,
-    });
+    setTranslations((prevTranslations) =>
+      prevTranslations
+        ? [
+            ...prevTranslations,
+            {
+              source: fromLang,
+              target: toLang,
+              original: mensaje,
+              translated: translationRes,
+            },
+          ]
+        : [
+            {
+              source: fromLang,
+              target: toLang,
+              original: mensaje,
+              translated: translationRes,
+            },
+          ]
+    );
+
     setIsModalOpen(true);
   }
 

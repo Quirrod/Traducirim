@@ -5,23 +5,17 @@ import Button from "./components/Button";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useState } from "react";
 import TranslateCard from "./components/TranslateCard";
-import Modal from "react-modal";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { DeleteCircle } from "iconoir-react";
+import Modal from "./components/Modal";
 
 function App() {
   const [parent, enableAnimations] = useAutoAnimate();
   const [showForm, setShowForm] = useState(false);
-  const [translations, setTranslations] = useState(null);
+  const [translations, setTranslations] = useState(
+    localStorage.getItem("translations")
+      ? JSON.parse(localStorage.getItem("translations"))
+      : null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
@@ -31,69 +25,79 @@ function App() {
           {showForm ? "Hide Form" : "New Translation"}
         </Button>
       </div>
+      {/* form */}
       <div ref={parent} className="p-5">
         {showForm && (
           <FormTranslate
             setShowForm={setShowForm}
             setTranslations={setTranslations}
             setIsModalOpen={setIsModalOpen}
+            translations={translations}
           />
         )}
       </div>
-
-      {translations && !isModalOpen && (
-        <TranslateCard
-          sourceLanguage={translations.source}
-          targetLanguage={translations.target}
-          originalMessage={translations.original}
-          translatedMessage={translations.translated}
-        />
-      )}
-
-      <Modal
-        isOpen={isModalOpen}
-        // onRequestClose={closeModal}
-        style={customStyles}
-        ariaHideApp={false}
-      >
-        <h1 className="text-center text-2xl font-bold">Translation</h1>
-
-        {translations ? (
+      {/* list of Translations */}
+      {translations &&
+        !isModalOpen &&
+        translations.map((translation, index) => (
           <TranslateCard
-            sourceLanguage={translations.source}
-            targetLanguage={translations.target}
-            originalMessage={translations.original}
-            translatedMessage={translations.translated}
+            key={index}
+            sourceLanguage={translation.source}
+            targetLanguage={translation.target}
+            originalMessage={translation.original}
+            translatedMessage={translation.translated}
           />
-        ) : (
-          <h1>No translation</h1>
-        )}
-        <div className="flex justify-around p-5">
+        ))}
+
+      {/* float button to erase translations */}
+      {translations && !isModalOpen && (
+        <div className="fixed bottom-5 right-5 hover:animate-pulse">
           <Button
             onClick={() => {
-              setShowForm(!showForm);
-              setIsModalOpen(false);
+              setTranslations(null);
               localStorage.removeItem("mensaje");
               localStorage.removeItem("fromLang");
               localStorage.removeItem("toLang");
             }}
-            color="green"
-            size="lg"
-          >
-            Save
-          </Button>
-          <Button
-            onClick={() => {
-              setIsModalOpen(false);
-              setTranslations(null);
-            }}
             color="red"
             size="lg"
           >
-            Close
+            <div className="text-xs flex flex-row">
+              <DeleteCircle /> Borrar Traducciones
+            </div>
           </Button>
         </div>
-      </Modal>
+      )}
+      {/* modal */}
+      {isModalOpen && (
+        <Modal
+          setIsModalOpen={setIsModalOpen}
+          onClickSaveButton={() => {
+            setShowForm(!showForm);
+            setIsModalOpen(false);
+            localStorage.removeItem("mensaje");
+            localStorage.removeItem("fromLang");
+            localStorage.removeItem("toLang");
+          }}
+        >
+          <h3
+            className="text-lg leading-6 font-medium text-gray-900"
+            id="modal-title"
+          >
+            Accept Translation
+          </h3>
+          <div className="mt-2 sm:mt-0 sm:ml-4 sm:text-left">
+            <TranslateCard
+              sourceLanguage={translations[translations.length - 1].source}
+              targetLanguage={translations[translations.length - 1].target}
+              originalMessage={translations[translations.length - 1].original}
+              translatedMessage={
+                translations[translations.length - 1].translated
+              }
+            />
+          </div>
+        </Modal>
+      )}
     </>
   );
 }
