@@ -4,7 +4,7 @@ import { languages } from "../data/data";
 import { translateMessage } from "../helper/translate";
 
 export default function FormTrnslate(props) {
-  const { setTranslations } = props;
+  const { setTranslations, setShowForm } = props;
   const [fromLang, setFromLang] = useState("");
   const [toLang, setToLang] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -43,7 +43,6 @@ export default function FormTrnslate(props) {
       setErrors((prevErrors) => ({ ...prevErrors, mensaje: null }));
     }
 
-    console.log("Form submitted:", fromLang, toLang, mensaje);
     const translationRes = await translateMessage(fromLang, toLang, mensaje);
     setTranslations({
       source: fromLang,
@@ -51,6 +50,7 @@ export default function FormTrnslate(props) {
       original: mensaje,
       translated: translationRes,
     });
+    setShowForm(false);
   }
 
   return (

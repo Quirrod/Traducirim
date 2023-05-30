@@ -14,14 +14,13 @@ function App() {
   return (
     <>
       <Navbar />
-      {/* center button */}
       <div className="flex justify-center p-5">
         <Button onClick={() => setShowForm(!showForm)} color="green" size="lg">
           {showForm ? "Hide Form" : "New Translation"}
         </Button>
       </div>
       <div ref={parent}>
-        {showForm && <FormTranslate setTranslations={setTranslations} />}
+        {showForm && <FormTranslate setShowForm={setShowForm} setTranslations={setTranslations} />}
       </div>
 
       {translations && (
