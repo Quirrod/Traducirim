@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import { languages } from "../data/data";
 import { translateMessage } from "../helper/translate";
 
 export default function FormTrnslate(props) {
   const { setTranslations, setShowForm } = props;
-  const [fromLang, setFromLang] = useState("");
-  const [toLang, setToLang] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  const [fromLang, setFromLang] = useState(
+    localStorage.getItem("fromLang") || ""
+  );
+  const [toLang, setToLang] = useState(localStorage.getItem("toLang") || "");
+  const [mensaje, setMensaje] = useState(localStorage.getItem("mensaje") || "");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    localStorage.setItem("fromLang", fromLang);
+    localStorage.setItem("toLang", toLang);
+    localStorage.setItem("mensaje", mensaje);
+  }, [fromLang, toLang, mensaje]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,6 +59,9 @@ export default function FormTrnslate(props) {
       translated: translationRes,
     });
     setShowForm(false);
+    localStorage.removeItem("mensaje");
+    localStorage.removeItem("fromLang");
+    localStorage.removeItem("toLang");
   }
 
   return (
