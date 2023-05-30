@@ -4,7 +4,7 @@ import { languages } from "../data/data";
 import { translateMessage } from "../helper/translate";
 
 export default function FormTrnslate(props) {
-  const { setTranslations, setShowForm } = props;
+  const { setTranslations, setIsModalOpen } = props;
   const [fromLang, setFromLang] = useState(
     localStorage.getItem("fromLang") || ""
   );
@@ -58,10 +58,7 @@ export default function FormTrnslate(props) {
       original: mensaje,
       translated: translationRes,
     });
-    setShowForm(false);
-    localStorage.removeItem("mensaje");
-    localStorage.removeItem("fromLang");
-    localStorage.removeItem("toLang");
+    setIsModalOpen(true);
   }
 
   return (
