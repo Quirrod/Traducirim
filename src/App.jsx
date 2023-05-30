@@ -1,12 +1,24 @@
 import "./App.css";
 import FormTranslate from "./components/FormTranslate";
 import Navbar from "./components/NavBar";
+import Button from "./components/Button";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useState } from "react";
 
 function App() {
+  const [parent, enableAnimations] = useAutoAnimate();
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <>
       <Navbar />
-      <FormTranslate />
+      {/* center button */}
+      <div className="flex justify-center p-5">
+        <Button onClick={() => setShowForm(!showForm)} color="green" size="lg">
+          {showForm ? "Hide Form" : "New Translation"}
+        </Button>
+      </div>
+      <div ref={parent}>{showForm && <FormTranslate />}</div>
     </>
   );
 }

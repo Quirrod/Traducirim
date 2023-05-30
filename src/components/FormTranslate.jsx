@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "./Button";
 
 export default function FormTrnslate() {
   const [fromLang, setFromLang] = useState("");
@@ -12,7 +13,7 @@ export default function FormTrnslate() {
     if (!fromLang) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        fromLang: "Selecciona un lenguaje de origen",
+        fromLang: "Select a source language",
       }));
       return;
     } else {
@@ -22,7 +23,7 @@ export default function FormTrnslate() {
     if (!toLang) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        toLang: "Selecciona un lenguaje de destino",
+        toLang: "Select a target language",
       }));
       return;
     } else {
@@ -32,7 +33,7 @@ export default function FormTrnslate() {
     if (!mensaje) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        mensaje: "El mensaje es obligatorio",
+        mensaje: "Enter a message",
       }));
       return;
     } else {
@@ -45,7 +46,7 @@ export default function FormTrnslate() {
   return (
     <form onSubmit={handleSubmit} className="my-8 mx-auto max-w-md">
       <label htmlFor="from_language" className="block font-medium mb-2">
-        De que lenguaje
+        Source Language
       </label>
       <div className="relative">
         <select
@@ -56,7 +57,7 @@ export default function FormTrnslate() {
           value={fromLang}
           onChange={(e) => setFromLang(e.target.value)}
         >
-          <option value="">Selecciona un lenguaje</option>
+          <option value="">Select a language</option>
           <option value="JavaScript">JavaScript</option>
           <option value="Python">Python</option>
           <option value="Ruby">Ruby</option>
@@ -76,7 +77,7 @@ export default function FormTrnslate() {
       )}
 
       <label htmlFor="to_language" className="block font-medium mt-6 mb-2">
-        A que lenguaje
+        Target Language
       </label>
       <div className="relative">
         <select
@@ -87,7 +88,7 @@ export default function FormTrnslate() {
           value={toLang}
           onChange={(e) => setToLang(e.target.value)}
         >
-          <option value="">Selecciona un lenguaje</option>
+          <option value="">Select a Language</option>
           <option value="JavaScript">JavaScript</option>
           <option value="Python">Python</option>
           <option value="Ruby">Ruby</option>
@@ -107,14 +108,14 @@ export default function FormTrnslate() {
       )}
 
       <label htmlFor="mensaje" className="block font-medium mt-6 mb-2">
-        Mensaje
+        Message
       </label>
       <textarea
         id="mensaje"
-        className={`block w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${
+        className={`block w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline mb-4 ${
           errors.mensaje ? "border-red-500" : ""
         }`}
-        placeholder="Escribe tu mensaje aquí"
+        placeholder="Write a message"
         value={mensaje}
         onChange={(e) => setMensaje(e.target.value)}
         rows="6"
@@ -123,12 +124,15 @@ export default function FormTrnslate() {
         <p className="text-red-500 text-sm mt-1">{errors.mensaje}</p>
       )}
 
-      <button
+      <Button
         type="submit"
-        className="w-full mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        color="green"
+        size="lg"
+        className="w-full mt-6"
+        width="full"
       >
-        Traducir
-      </button>
+        Translate
+      </Button>
     </form>
   );
 }
