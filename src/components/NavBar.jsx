@@ -1,13 +1,11 @@
-import { Home } from "iconoir-react";
 import React, { useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { links } from "../data/data";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
-  const links = [
-    { name: "Home", href: "/", icon: <Home /> },
-  ];
-  const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
+  const linksNavBar = links
+  const [parent, enableAnimations] = useAutoAnimate();
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-6">
@@ -37,7 +35,7 @@ function Navbar() {
       >
         {isOpen && (
           <div className="text-sm lg:flex-grow">
-            {links.map((link, index) => (
+            {linksNavBar.map((link, index) => (
               <a
                 key={index}
                 href={link.href}
