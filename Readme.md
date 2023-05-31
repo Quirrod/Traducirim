@@ -4,6 +4,9 @@
 
 [Ver Traducirim](https://traducirim.netlify.app/)
 
+[Video Explicacion Traducirim](https://user-images.githubusercontent.com/59368787/242406353-d9d8f2ab-c548-44c1-8984-d5723ded9533.mp4)
+
+
 Hoy les traigo una emocionante novedad para todos aquellos que aman los idiomas y necesitan traducir de forma rápida y eficiente. Les presento **Traducirim**, la página web de traducción más avanzada y fácil de usar.
 
 En este video, les mostraré cómo utilize React, junto con los hooks `useState`, `useEffect` y `localStorage`, para almacenar los datos de un formulario. ¡Comencemos!
