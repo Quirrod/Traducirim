@@ -53,27 +53,7 @@ export default function FormTrnslate(props) {
     }
 
     const translationRes = await translateMessage(fromLang, toLang, mensaje);
-    setTranslations((prevTranslations) =>
-      prevTranslations
-        ? [
-            ...prevTranslations,
-            {
-              source: fromLang,
-              target: toLang,
-              original: mensaje,
-              translated: translationRes,
-            },
-          ]
-        : [
-            {
-              source: fromLang,
-              target: toLang,
-              original: mensaje,
-              translated: translationRes,
-            },
-          ]
-    );
-
+    localStorage.setItem("translationRes", translationRes);
     setIsModalOpen(true);
   }
 

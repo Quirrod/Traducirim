@@ -70,12 +70,37 @@ export default function Translate() {
         <Modal
           setIsModalOpen={setIsModalOpen}
           onClickSaveButton={() => {
+            setTranslations((prevTranslations) =>
+              prevTranslations
+                ? [
+                    {
+                      source: localStorage.getItem("fromLang"),
+                      target: localStorage.getItem("toLang"),
+                      original: localStorage.getItem("mensaje"),
+                      translated: localStorage.getItem("translationRes"),
+                    },
+                    ...prevTranslations,
+                  ]
+                : [
+                    {
+                      source: localStorage.getItem("fromLang"),
+                      target: localStorage.getItem("toLang"),
+                      original: localStorage.getItem("mensaje"),
+                      translated: localStorage.getItem("translationRes"),
+                    },
+                  ]
+            );
             setShowForm(!showForm);
             setIsModalOpen(false);
-            localStorage.removeItem("mensaje");
-            localStorage.removeItem("fromLang");
-            localStorage.removeItem("toLang");
+            // await to set the state of translations and then erase the localStorage
+            setTimeout(() => {
+              localStorage.removeItem("mensaje");
+              localStorage.removeItem("fromLang");
+              localStorage.removeItem("toLang");
+              localStorage.removeItem("translationRes");
+            }, 1000);
           }}
+          onClickCancelButton={() => setIsModalOpen(false)}
         >
           <h3
             className="text-lg leading-6 font-medium text-gray-900"
@@ -85,11 +110,11 @@ export default function Translate() {
           </h3>
           <div className="mt-2 sm:mt-0 sm:ml-4 sm:text-left">
             <TranslateCard
-              sourceLanguage={translations[translations.length - 1].source}
-              targetLanguage={translations[translations.length - 1].target}
-              originalMessage={translations[translations.length - 1].original}
+              sourceLanguage={localStorage.getItem("fromLang")}
+              targetLanguage={localStorage.getItem("toLang")}
+              originalMessage={localStorage.getItem("mensaje")}
               translatedMessage={
-                translations[translations.length - 1].translated
+                localStorage.getItem("translationRes") || "Loading..."
               }
             />
           </div>
