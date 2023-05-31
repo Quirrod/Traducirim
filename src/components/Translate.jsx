@@ -92,7 +92,6 @@ export default function Translate() {
             );
             setShowForm(!showForm);
             setIsModalOpen(false);
-            // await to set the state of translations and then erase the localStorage
             setTimeout(() => {
               localStorage.removeItem("mensaje");
               localStorage.removeItem("fromLang");
