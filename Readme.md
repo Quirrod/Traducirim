@@ -96,3 +96,7 @@ Para poder utilizar Traducirim, necesitas tener una computadora con acceso a int
 - Inicie el servidor con `npm run dev`
 
 Para ver Traducirim, simplemente debes ingresar a la página web [Traducirim](https://traducirim.netlify.app/).
+
+## Contribuidores
+
+- [Joel Jarro](https://github.com/Quirrod)
