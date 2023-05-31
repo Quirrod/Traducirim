@@ -2,7 +2,7 @@
 
 ## Aplicacion de traduccion de textos
 
-[Ver Traducirim](https://traducirim.netlify.app/)
+[Visita la PAgina de Traducirim 👀👁👀](https://traducirim.netlify.app/)
 
 [Video Explicacion Traducirim](https://user-images.githubusercontent.com/59368787/242406353-d9d8f2ab-c548-44c1-8984-d5723ded9533.mp4)
 
